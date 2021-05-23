@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Snowbot error</title>
+</head>
+<body>
+	{% if error == 'unauthorized_guilds' %}
+		<h3>Something went wrong. Please <a href="https://discord.com/api/oauth2/authorize?client_id=782494294820257804&redirect_uri=http%3A%2F%2Flocalhost%3A8000&response_type=code&scope=identify%20guilds">log in</a>
+		again</h3>
+	{% endif %}
+</body>
+</html>

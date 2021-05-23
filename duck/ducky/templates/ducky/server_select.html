@@ -1,0 +1,48 @@
+<title>{% block title %}Select your server{% endblock %}</title>
+{% block head %}
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'ducky/server_select.css' %}">
+    <script type="text/javascript" src="{% static 'jquery-3.6.0.js' %}"></script>
+{% endblock %}
+{% block body %}
+	{% for guild in guilds %}
+		<div class="guild">
+			<img alt="server icon" class="icon" src="https://cdn.discordapp.com/icons/{{guild.id}}/{{guild.icon}}.png?size=2048">
+			<h1>{{guild.name}}</h1>
+			<img class="check" alt="check mark" src="{% static 'ducky/transparent_check.png' %}">
+			<!-- This gets the id of the guild so i can access in js below -->
+			<p style="display: none" class="id">{{guild.id}}</p>
+		</div>
+	{% endfor %}
+	<button id="continue">Continue to dashboard</button>
+	<script>
+		var selected_guild = null
+		$('#continue').on('click', function() {
+			$.ajax({
+        		type: "POST",
+        		url: '/api_cookie',
+        		async: false,
+				data: {csrfmiddlewaretoken: '{{ csrf_token }}',
+				'title': 'guild_id',
+				'guild_id': selected_guild}
+        	});
+       		window.location.replace("/config")
+       	});
+       	$(".guild").click(function() {
+       		$(".guild").not($(this)).map(function () { /* selects every guild but clicked guild */
+       			$(this).css({
+                	transition : 'background-color .15s ease-in-out',
+                	"background-color": "#454545" /* fades other things out */
+            	});
+            	$(this).children('.check').fadeOut(150); /* fades out all check marks */
+            	selected_guild = null;
+       		});
+       		$(this).css({ /* makes the one that they clicked green */
+                transition : 'background-color .15s ease-in-out',
+                "background-color": "#046304"
+            });
+            $(this).children('.check').fadeIn(150); /* fades in selected check */
+            selected_guild = $(this).children('.id').html() /* id of clicked guild */
+       	});
+	</script>
+{% endblock %}

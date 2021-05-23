@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE:html>
+<html>
+<head>
+	<title>{% block title %}NGC0000{% endblock %}</title>
+	{% block head %}{% endblock %}
+	{% load static %}
+    <script type="text/javascript" src="{% static 'jquery-3.6.0.js' %}"></script>
+</head>
+	<body>
+		<link rel="stylesheet" type="text/css" href="{% static 'ducky/base.css' %}">
+		<div id="sidebar">
+			<a href="." class="docstitle">NGC0000<br>Documentation</a>
+			<a href="administration">Admin</a>
+			<a href="automod">Automod</a>
+			<a href="bot">Bot</a>
+			<a href="conversion">Conversion</a>
+			<a href="files">Files</a>
+			<a href="info">Info</a>
+			<a href="logging">Logging</a>
+			<a href="moderation">Moderation</a>
+			<a href="roles">Roles</a>
+			<a href="server">Server</a>
+			<a href="stats">Stats</a>
+			<a href="time">Time</a>
+			<a href="tracking">Tracking</a>
+			<a href="users">Users</a>
+			<a href="utils">Utilities</a>
+			<a href="warn">Warns</a>
+			{% if avatar is not None %}
+				<a href="server_select">Config</a>
+			{% endif %}
+		</div>
+	    {% if avatar is not None %}
+       		<img src={{ avatar }} class="avatar">
+       		<div id="userinfo">
+				<h3>{{ name }}</h3>
+			</div>
+			<script>
+				$(".avatar").on('click', function() {
+					if ($("#userinfo").css("width").includes("0px")) {
+						$("#userinfo").animate({
+							width: ['199px', 'swing'],
+							height: ['100px', 'swing']}, 
+							{duration: 125, easing: "swing" });
+						$("#userinfo h3").animate({
+							fontSize: "20px"},
+							{duration: 130});
+					}
+					else {
+						$("#userinfo").animate({
+							width: ['0px', 'swing'],
+							height: ['0px', 'swing']}, 
+							{duration: 125, easing: "swing" });
+						$("#userinfo h3").animate({
+							fontSize: "0px"},
+							{duration: 125});
+					}
+				})
+			</script>
+   		{% endif %}
+		{% block body %}<h1>No body</h1>{% endblock %}
+		{% if avatar is None %}
+			<button id="LogIn">Log In</button>	
+		<script>
+        	$('#LogIn').on('click', function() {
+        		window.location.replace("https://discord.com/api/oauth2/authorize?client_id=782494294820257804&redirect_uri=http%3A%2F%2Flocalhost%3A8000&response_type=code&scope=identify%20guilds")
+       		});
+		</script>
+		{% endif %}
+	</body>
+</h1>

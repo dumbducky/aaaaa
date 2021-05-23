@@ -1,0 +1,95 @@
+{% extends 'ducky/base.html' %}
+{% block title %}Configure NGC0000{% endblock %}
+{% block head %}
+	{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'ducky/config.css' %}">
+{% endblock %}
+{% block body %}
+	<table id="log">
+		<tr>
+			<th>On/Off</th>
+			<th>Log Option</th>
+		</tr>
+		<tr>
+			<td class="img"><img src="{% static 'ducky/check.png' %}" class="log_x"></td>
+			<td>Edits</td>
+		</tr>
+		<tr>
+			<td class="img"><img src="{% static 'ducky/check.png' %}" class="log_x"></td>
+			<td>Deletes</td>
+		</tr>
+		<tr>
+			<td class="img"><img src="{% static 'ducky/check.png' %}" class="log_x"></td>
+			<td>Roles</td>
+		</tr>
+		<tr>
+			<td class="img"><img src="{% static 'ducky/check.png' %}" class="log_x"></td>
+			<td>Channels</td>
+		</tr>
+		<tr>
+			<td class="img"><img src="{% static 'ducky/check.png' %}" class="log_x"></td>
+			<td>Names</td>
+		</tr>
+		<tr>
+			<td class="img"><img src="{% static 'ducky/check.png' %}" class="log_x"></td>
+			<td>Voice</td>
+		</tr>
+		<tr>
+			<td class="img"><img src="{% static 'ducky/check.png' %}" class="log_x"></td>
+			<td>Avatars</td>
+		</tr>
+		<tr>
+			<td class="img"><img src="{% static 'ducky/check.png' %}" class="log_x"></td>
+			<td>Moderation</td>
+		</tr>
+		<tr>
+			<td class="img"><img src="{% static 'ducky/check.png' %}" class="log_x"></td>
+			<td>Leaves</td>
+		</tr>
+		<tr>
+			<td class="img"><img src="{% static 'ducky/check.png' %}" class="log_x"></td>
+			<td>Joins</td>
+		</tr>
+		<tr>
+			<td class="img"><img src="{% static 'ducky/check.png' %}" class="log_x"></td>
+			<td>Invites</td>
+		</tr>
+		<tr>
+			<td class="img"><img src="{% static 'ducky/check.png' %}" class="log_x"></td>
+			<td>Server</td>
+		</tr>
+		<tr>
+			<td class="img"><img src="{% static 'ducky/check.png' %}" class="log_x"></td>
+			<td>Emojis</td>
+		</tr>
+	</table>
+	<script>
+		$(function() {
+        	$('#log td').on('click', function () {
+        		img = $(this).parent().children(".img");
+        		if (img.html().includes("check")) {
+        			img.html("<img src='{% static 'ducky/x.png' %}' class='log_x'>")
+					log_type = $(this).parent().children("td").not(".img").html().toLowerCase()
+        			$.ajax({
+        				type: "POST",
+        				url: '/api_logging',
+        				data: {csrfmiddlewaretoken: '{{ csrf_token }}', 'log_type': log_type, 'log_bool': false, 'guild_id': '{{guild_id}}'}
+					});
+        		}
+        		else {
+        			img.html("<img src='{% static 'ducky/check.png' %}'' class='log_x'>")
+        			log_type = $(this).parent().children("td").not(".img").html().toLowerCase()
+        			$.ajax({
+        				type: "POST",
+        				url: '/api_logging',
+        				data: {csrfmiddlewaretoken: '{{ csrf_token }}', 'log_type': log_type, 'log_bool': true, 'guild_id': '{{guild_id}}'}
+        		})};
+            });
+  	    });
+		
+  	    $(document).on('ready', function (){
+  	    	$("body").animate({backgroundColor: "black"})
+  	    	alert("done!")
+  	    });
+	</script>
+{% endblock %}

@@ -1,0 +1,80 @@
+body {
+	background-color: black;
+}
+
+#continue {
+	display: block;
+	background-color: green;
+	cursor: pointer;
+	font-size: 20px;
+	padding: 10px 15px 10px 15px;
+	border-style: groove;
+	border-radius: 10px;
+	border-width: 1px;
+	border-color: #a11d1d;
+	position: relative;
+	top: 30px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+p {
+	color: white;
+}
+
+.guild {
+	background-color: #454545;
+	border-style: groove;
+	position: relative;
+	top: 10px;
+	width: 75%;
+	height: 100px;
+	color: #81deb7;
+	border-color: pink;
+	margin: 0px auto;
+	box-shadow: 3px 3px 3px blue;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	line-height: 50px;
+	cursor: pointer;
+}
+
+.guild h1 {
+	font-size: 30px;
+	position: relative;
+	z-index: 2;
+	margin: 0px 0px 0px 0px;
+	left: 110px;
+	top: -58px;
+	width: 70%;
+
+}	
+
+.guild .icon {
+	max-width: 75px;
+	border-style: solid;
+	border-color: brown;
+	border-radius: 50px;
+	transform: translate(-50%, -50%);
+	height: auto;
+	position: relative;
+	top: 50%;
+	left: 50px;
+	margin: 0px;
+}
+
+.guild:hover {
+	transition: .15s ease;
+	border-color: blue;
+}
+
+.guild .check {
+	position: relative;
+	z-index: 2;
+	display: inline-block;
+	vertical-align: middle;
+	float: right;
+	top: -113px;
+	right: 25px;
+	display: none;
+}

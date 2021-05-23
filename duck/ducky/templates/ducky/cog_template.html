@@ -1,0 +1,44 @@
+{% extends 'ducky/base.html' %}
+
+<!-- 475348957439! 068 -->
+    {% block head %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'ducky/cog.css' %}">
+    {% endblock %}
+    {% block body %}
+    <div><button id="expand" class="exp-button" type="button">Expand All</button></div>
+    <div><button id="collapse" class="exp-button" type="button">Collapse All</button></div>
+    <script>
+    $(function() {
+        $('.helpbox').on('click', function() {
+            $(this).children('p').stop().slideToggle(500);
+            if ($(this).height() > 80) {
+                $(this).children('.dropDownIcon').css({transform: "rotate(-90deg)"});
+            }
+            else {
+                $(this).children('.dropDownIcon').css({transform: "rotate(0deg)"});
+            }
+        });
+    });
+
+    $(function() {
+        $('#expand').on('click', function () {
+            helpBoxes = $('body').children('.helpbox')
+            for (i = 0; i < helpBoxes.length; i++) {
+                $(helpBoxes[i]).children('p').stop().slideDown(500);
+                $(helpBoxes[i]).children('.dropDownIcon').css({transform: "rotate(0deg)"});
+            }
+        });
+    });
+
+    $(function() {
+        $('#collapse').on('click', function () {
+            helpBoxes = $('body').children('.helpbox')
+            for (i = 0; i < helpBoxes.length; i++) {
+                $(helpBoxes[i]).children('p').stop().slideUp(500);
+                $(helpBoxes[i]).children('.dropDownIcon').css({transform: "rotate(-90deg)"});
+            }
+        });
+    });
+</script>
+{% endblock%}
