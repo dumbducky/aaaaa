@@ -10,7 +10,7 @@
 	<body>
 		<link rel="stylesheet" type="text/css" href="{% static 'ducky/base.css' %}">
 		<div id="sidebar">
-			<a href="." class="docstitle">NGC0000<br>Documentation</a>
+			<a href="." class="docstitle">Snowbot<br>Documentation</a>
 			<a href="administration">Admin</a>
 			<a href="automod">Automod</a>
 			<a href="bot">Bot</a>
@@ -27,14 +27,18 @@
 			<a href="users">Users</a>
 			<a href="utils">Utilities</a>
 			<a href="warn">Warns</a>
-			{% if avatar is not None %}
-				<a href="server_select">Config</a>
+			{% if user_json is not None %}
+				<!-- <a href="server_select">Config</a> -->
 			{% endif %}
 		</div>
-	    {% if avatar is not None %}
-       		<img src={{ avatar }} class="avatar">
+	    {% if user_json is not None %}
+       		<img src="https://cdn.discordapp.com/avatars/{{user_json.id}}/{{user_json.avatar}}.webp?size=1024" class="avatar">
        		<div id="userinfo">
-				<h3>{{ name }}</h3>
+				<h3>{{ user_json.username }}#{{ user_json.discriminator }}</h3>
+				<button>
+					<img src="{% static 'ducky/logout.png' %}">
+					<h3>Log out</h3>
+				</button>
 			</div>
 			<script>
 				$(".avatar").on('click', function() {
@@ -44,9 +48,11 @@
 							height: ['100px', 'swing']}, 
 							{duration: 125, easing: "swing" });
 						$("#userinfo h3").animate({
-							fontSize: "20px"},
+							fontSize: "16px"},
 							{duration: 130});
-					}
+						$("#userinfo button").css({
+							display: "block"})
+						}
 					else {
 						$("#userinfo").animate({
 							width: ['0px', 'swing'],
@@ -54,13 +60,15 @@
 							{duration: 125, easing: "swing" });
 						$("#userinfo h3").animate({
 							fontSize: "0px"},
-							{duration: 125});
+							{duration: 130});
+						$("#userinfo button").css({
+							display: "none"})
 					}
 				})
 			</script>
    		{% endif %}
 		{% block body %}<h1>No body</h1>{% endblock %}
-		{% if avatar is None %}
+		{% if user_json is None %}
 			<button id="LogIn">Log In</button>	
 		<script>
         	$('#LogIn').on('click', function() {

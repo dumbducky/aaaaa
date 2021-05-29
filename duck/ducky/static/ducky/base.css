@@ -8,7 +8,6 @@
     top: 0;
     left: 0;
     background-color: #031a1f;
-    overflow-x: hidden;
     padding-top: 15px;
 }
 
@@ -64,6 +63,39 @@
     font-family: sans-serif;
 }
 
+#userinfo button { /* fuck you flexbox */
+    display: flex;
+    position: relative;
+    width: 175px;
+    margin: 0 auto;
+    height: 40px;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: black;
+    display: none;
+    background-color: #674747;
+}
+
+#userinfo button:hover {
+    transition: .3s ease;
+    background-color: #974747;
+}
+
+#userinfo button img {
+    position: relative;
+    margin: 0;
+    margin-left: 7px;
+    float: left;
+}
+
+#userinfo button h3 {
+    position: relative;
+    margin: 0;
+    float: left;
+    top: 4px;
+}
+
 p {
     color: #AEC1C6;
     margin-left: 15px;
@@ -73,7 +105,7 @@ p {
 
 body {
     background-color: #060e16;
-    height: 100%;
+    height: 95%;
     margin: 0px;
 }
 

@@ -9,52 +9,44 @@ import asyncio
 import psycopg2
 from psycopg2 import sql
 import json
+from ducky.constants import db_name, db_password, db_user, db_host, ipc_password
 
 loopeydoopeywuackey = asyncio.get_event_loop()
 
-ipc_client = ipc.Client(secret_key="i dont know what to put here so i guess ill just spam random asdf")
-pg_uri = loopeydoopeywuackey.run_until_complete(
-    ipc_client.request("postgres"))
-
+ipc_client = ipc.Client(secret_key=ipc_password)
 
 cxn = psycopg2.connect(
-    host="localhost",
-    database="dog",
-    user="postgres",
-    password="wertfdsgdfgfgdskfg")
+    host=db_host,
+    database=db_name,
+    user=db_user,
+    password=db_password)
 
 cur = cxn.cursor()
-
 def base(request):
 	try:
 		user_json = literal_eval(request.COOKIES.get('user_json'))
 	except ValueError:
-		return {"avatar": None}
-	avatar = f"https://cdn.discordapp.com/avatars/{user_json['id']}/{user_json['avatar']}.png"
-	name = f"{user_json['username']}#{user_json['discriminator']}"
-	return {"avatar": avatar, "name": name}
+		user_json = None
+	return {"user_json": user_json}
 
 def index(request):
 	code = request.GET.get("code")
 	access_token = OAuth.get_access_token(code) # get access code
-	avatar = None
 	try:
 		user_json = literal_eval(request.COOKIES.get('user_json')) # returns ValueError if user_json does not exist
 		login_bool = True
 	except ValueError:
 		user_json = OAuth.get_user_json(access_token)
-		avatar = f"https://cdn.discordapp.com/avatars/{user_json.get('id')}/{user_json.get('avatar')}.png"
 		try:
 			test = user_json['id'] # tests if user is logged in
 			login_bool = True
 		except KeyError:
 			login_bool = False
 		else:
-			avatar = None # no avatar if user is not logged in
+			user_json = None # no avatar if user is not logged in
 	if not login_bool:
-		return render(request, "ducky/home.html", {"avatar": None})
-	avatar = f"https://cdn.discordapp.com/avatars/{user_json['id']}/{user_json['avatar']}.png"
-	response = render(request, "ducky/home.html", {"avatar": avatar})
+		return render(request, "ducky/home.html", {"user_json": None})
+	response = render(request, "ducky/home.html", {"user_json": user_json})
 	if login_bool:
 		guilds = OAuth.get_user_guilds(access_token)
 		response.set_cookie("user_json", user_json) # set a cookie if user is logged in
@@ -142,7 +134,7 @@ def api_cookie(request):
 	request.session['guild_id'] = request.POST[request.POST['title']]
 	return HttpResponse("Django bitches if i dont return a HttpResponse object so here it is")
 
-async def api_logging(request):
+def api_logging(request):
 	log_type = request.POST['log_type']
 	log_bool = request.POST['log_bool']
 	guild_id = request.POST['guild_id']
@@ -171,6 +163,4 @@ async def api_logging(request):
 	return HttpResponse("Why are you looking at this... I'm just inserting the data into a db...")
 
 async def testing(req):
-	cash = await ipc_client.request("cash")
-	await ipc_client.request("recieve_cash", cash=cash)
-	return HttpResponse(cash)
+	return await ipc_client.request("testing")
