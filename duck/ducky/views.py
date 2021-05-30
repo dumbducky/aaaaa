@@ -11,10 +11,12 @@ from psycopg2 import sql
 import json
 from ducky.constants import db_name, db_password, db_user, db_host, ipc_password
 
-loopeydoopeywuackey = asyncio.get_event_loop()
-
-ipc_client = ipc.Client(secret_key=ipc_password)
-
+try:
+	loopeydoopeywuackey = asyncio.get_event_loop()
+	ipc_client = ipc.Client(secret_key=ipc_password)
+except RuntimeError:
+	pass # useless until live stats added... then panic
+	
 cxn = psycopg2.connect(
     host=db_host,
     database=db_name,
@@ -164,3 +166,9 @@ def api_logging(request):
 
 async def testing(req):
 	return await ipc_client.request("testing")
+
+def log_out(req):
+	response = HttpResponse("stuff")
+	del request.session['guilds']
+	response.delete_cookie('user_json')
+	return response
