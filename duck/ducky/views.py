@@ -16,7 +16,7 @@ try:
 	ipc_client = ipc.Client(secret_key=ipc_password)
 except RuntimeError:
 	pass # useless until live stats added... then panic
-	
+
 cxn = psycopg2.connect(
     host=db_host,
     database=db_name,
@@ -33,27 +33,18 @@ def base(request):
 
 def index(request):
 	code = request.GET.get("code")
-	access_token = OAuth.get_access_token(code) # get access code
+	access_token = OAuth.get_access_token(code)
 	try:
-		user_json = literal_eval(request.COOKIES.get('user_json')) # returns ValueError if user_json does not exist
-		login_bool = True
+		user_json = literal_eval(request.COOKIES.get('user_json'))
 	except ValueError:
-		user_json = OAuth.get_user_json(access_token)
-		try:
-			test = user_json['id'] # tests if user is logged in
-			login_bool = True
-		except KeyError:
-			login_bool = False
+		if access_token:
+			user_json = OAuth.get_user_json(access_token)
+			response = render(request, "ducky/home.html", {"user_json": user_json})
+			response.set_cookie("user_json", user_json)
 		else:
-			user_json = None # no avatar if user is not logged in
-	if not login_bool:
-		return render(request, "ducky/home.html", {"user_json": None})
-	response = render(request, "ducky/home.html", {"user_json": user_json})
-	if login_bool:
-		guilds = OAuth.get_user_guilds(access_token)
-		response.set_cookie("user_json", user_json) # set a cookie if user is logged in
-		request.session['guilds'] = guilds
-	return response
+			response = render(request, "ducky/home.html", {"user_json": None})
+		return response
+	return render(request, "ducky/home.html", {"user_json": user_json})
 	
 def cog(request, cog_name):
 	json = base(request)

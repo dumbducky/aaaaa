@@ -75,6 +75,7 @@
         		window.location.replace("https://discord.com/api/oauth2/authorize?client_id=782494294820257804&redirect_uri=http%3A%2F%2Flocalhost%3A8000&response_type=code&scope=identify%20guilds")
        		});
        		$('#userinfo button').on('click', function() {
+       			alert("shit")
        			$.ajax({
         		type: "POST",
         		url: '/log_out',
