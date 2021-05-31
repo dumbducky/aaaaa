@@ -4,9 +4,10 @@
     border-radius: 3px;
     border-width: thin;
     float: left;
-    width: 1125px;
+    width: 82%;
+    min-width: 400px;
     position: relative;
-    left: 180;
+    left: 13.25%;
     overflow: hidden;
     min-height: 60px;
     box-shadow: 5px 1px 5px #AEC1C6;
@@ -31,10 +32,11 @@
 
 .exp-button {
     position: relative;
-    right: 150px;
-    top: 15px;
     float: right;
-    height: 50px;
+    right: 3vw;
+    top: 10px;
+    height: 60px;
+    width: 12.5vw;
     font-size: 25px;
     color: #f8bae9;
     background-color: #031013;

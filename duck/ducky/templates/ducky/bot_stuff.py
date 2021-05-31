@@ -6,7 +6,7 @@ from ...constants import client_secret, client_id
 class OAuth():
 	client_id = client_id
 	client_secret = client_secret
-	scope = "identify%20guilds"
+	scope = "identify"
 	redirect_uri = "http://localhost:8000"
 	discord_login_url = f"https://discord.com/api/oauth2/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code&scope={scope}"
 	discord_token_url = "https://discord.com/api/oauth2/token"
