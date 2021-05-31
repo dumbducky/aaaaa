@@ -159,7 +159,11 @@ async def testing(req):
 	return await ipc_client.request("testing")
 
 def log_out(req):
+	print("stuff")
 	response = HttpResponse("stuff")
-	del request.session['guilds']
+	try:
+		del req.session['guilds']
+	except KeyError:
+		pass
 	response.delete_cookie('user_json')
 	return response

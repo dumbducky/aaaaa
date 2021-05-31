@@ -65,7 +65,16 @@
 						$("#userinfo button").css({
 							display: "none"})
 					}
-				})
+				});
+				$('#userinfo').children('button').on('click', function() {
+	       			$.ajax({
+	        			type: "POST",
+	        			url: '/log_out',
+	        			async: false,
+						data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
+	        		});
+	        		window.location.reload();
+	       			});
 			</script>
    		{% endif %}
 		{% block body %}<h1>No body</h1>{% endblock %}
@@ -74,16 +83,6 @@
 		<script>
         	$('#LogIn').on('click', function() {
         		window.location.replace("https://discord.com/api/oauth2/authorize?client_id=782494294820257804&redirect_uri=http%3A%2F%2Flocalhost%3A8000&response_type=code&scope=identify%20guilds")
-       		});
-       		$('#userinfo button').on('click', function() {
-       			alert("shit")
-       			$.ajax({
-        		type: "POST",
-        		url: '/log_out',
-        		async: false,
-				data: {csrfmiddlewaretoken: '{{ csrf_token }}'}
-        		});
-        		window.location.reload();
        		});
 		</script>
 		{% endif %}
