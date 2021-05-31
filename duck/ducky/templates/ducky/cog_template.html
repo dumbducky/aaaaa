@@ -11,12 +11,16 @@
     <script>
     $(function() {
         $('.helpbox').on('click', function() {
-            $(this).children('p').stop().slideToggle(500);
-            if ($(this).height() > 80) {
-                $(this).children('.dropDownIcon').css({transform: "rotate(-90deg)"});
+            if ($(this).children('.dropDownIcon').hasClass("downDropDownIcon")) {
+                $(this).children('.dropDownIcon').stop().css({transform: "rotate(-90deg)"})
+                .removeClass("downDropDownIcon");
+                $(this).children('p').stop().slideUp(500);
+
             }
             else {
-                $(this).children('.dropDownIcon').css({transform: "rotate(0deg)"});
+                $(this).children('.dropDownIcon').stop().css({transform: "rotate(0deg)"})
+                .addClass("downDropDownIcon");
+                $(this).children('p').stop().slideDown(500);
             }
         });
     });
@@ -26,7 +30,8 @@
             helpBoxes = $('body').children('.helpbox')
             for (i = 0; i < helpBoxes.length; i++) {
                 $(helpBoxes[i]).children('p').stop().slideDown(500);
-                $(helpBoxes[i]).children('.dropDownIcon').css({transform: "rotate(0deg)"});
+                $(helpBoxes[i]).children('.dropDownIcon').css({transform: "rotate(0deg)"})
+                .addClass("downDropDownIcon");
             }
         });
     });
@@ -36,7 +41,8 @@
             helpBoxes = $('body').children('.helpbox')
             for (i = 0; i < helpBoxes.length; i++) {
                 $(helpBoxes[i]).children('p').stop().slideUp(500);
-                $(helpBoxes[i]).children('.dropDownIcon').css({transform: "rotate(-90deg)"});
+                $(helpBoxes[i]).children('.dropDownIcon').css({transform: "rotate(-90deg)"})
+                .removeClass("downDropDownIcon");
             }
         });
     });

@@ -51,3 +51,9 @@
     /*box-shadow: 0px 0px 8px rgb(0, 15, 45);*/
     background-color: rgb(0, 15, 45);
 }
+
+.downDropDownIcon {
+    /* look, I need a way to detect if each icon is rotated or not, 
+    so i just toggle this class every time I change the rotation of the drop down icon. 
+    i dont know how else to do it please help. this does nothing except being detected in jquery */
+}

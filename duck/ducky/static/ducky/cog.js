@@ -1,0 +1,1 @@
+/* too lazy to take js here instead of in <script> tag */
