@@ -32,12 +32,12 @@ def base(request):
 	return {"user_json": user_json}
 
 def index(request):
-	code = request.GET.get("code")
-	access_token = OAuth.get_access_token(code)
 	try:
 		user_json = literal_eval(request.COOKIES.get('user_json'))
 	except ValueError:
-		if access_token:
+		code = request.GET.get("code")
+		if code:
+			access_token = OAuth.get_access_token(code)
 			user_json = OAuth.get_user_json(access_token)
 			response = render(request, "ducky/home.html", {"user_json": user_json})
 			response.set_cookie("user_json", user_json)
