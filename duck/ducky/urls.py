@@ -24,5 +24,5 @@ urlpatterns = [
     path("api_cookie", views.api_cookie, name='api_cookie'),
     path("server_select", views.server_select, name='server_select'),
     path("testing", views.testing, name='testing'),
-    path("log_out", views.log_out, name='log_out')
+    path("log_out", views.log_out, name='log_out'),
 ]
