@@ -25,4 +25,8 @@ urlpatterns = [
     path("server_select", views.server_select, name='server_select'),
     path("testing", views.testing, name='testing'),
     path("log_out", views.log_out, name='log_out'),
+    path("live_stats_members", views.live_stats_members, name='live_stats_members'),
+    path("live_stats_servers", views.live_stats_servers, name='live_stats_servers'),
+    path("live_stats_commands", views.live_stats_commands, name='live_stats_commands'),
+    path("live_stats_messages", views.live_stats_messages, name='live_stats_messages')
 ]

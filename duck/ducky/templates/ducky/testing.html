@@ -1,0 +1,164 @@
+<!DOCTYPE:html>
+<html>
+  <body>
+    <div class='numCounter' data-value='1839471'></div>
+    <script type="text/javascript">
+      function Counter(selector, settings){
+  this.settings = Object.assign({
+    digits: 5,
+    delay: 250, // ms
+    direction: ''  // ltr is default
+  }, settings||{})
+  
+  var scopeElm = document.querySelector(selector)
+  
+  // generate digits markup
+  var digitsHTML = Array(this.settings.digits + 1).join('<div><b data-value="0"></b></div>')
+  scopeElm.innerHTML = digitsHTML;
+
+  this.DOM = {
+    scope : scopeElm,
+    digits : scopeElm.querySelectorAll('b')
+  }
+  
+  this.DOM.scope.addEventListener('transitionend', e => {
+    if (e.pseudoElement === "::before" && e.propertyName == 'margin-top'){
+      e.target.classList.remove('blur')
+    }
+  })
+  
+  this.count()
+}
+
+Counter.prototype.count = function(newVal){
+  var countTo, className, 
+      settings = this.settings,
+      digitsElms = this.DOM.digits;
+  
+  // update instance's value
+  this.value = newVal || this.DOM.scope.dataset.value|0
+
+  if( !this.value ) return;
+  
+  // convert value into an array of numbers
+  countTo = (this.value+'').split('')
+  
+  if(settings.direction == 'rtl'){
+    countTo = countTo.reverse()
+    digitsElms = [].slice.call(digitsElms).reverse()
+  }
+  
+  // loop on each number element and change it
+  digitsElms.forEach(function(item, i){ 
+      if( +item.dataset.value != countTo[i]  &&  countTo[i] >= 0 )
+        setTimeout(function(j){
+            var diff = Math.abs(countTo[j] - +item.dataset.value);
+            item.dataset.value = countTo[j]
+            if( diff > 3 )
+              item.className = 'blur';
+        }, i * settings.delay, i)
+  })
+}
+
+
+
+/////////////// create new counter for this demo ///////////////////////
+
+var counter = new Counter('.numCounter', {direction:'rtl', delay:200, digits:7})
+setInterval(randomCount, 3000)
+
+function randomCount(){
+  counter.count( getRandomNum(0, 9999999))
+}
+
+function getRandomNum(min,max){
+    return Math.floor(Math.random()*(max-min+1) + min)
+}
+    </script>
+    <style>
+      .numCounter {
+  display: inline-block;
+  height: 90px;
+  line-height: 90px;
+  text-shadow: 0 0 2px #fff;
+  font-weight: bold;
+  white-space: normal;
+  font-size: 50px;
+}
+
+.numCounter > div {
+  display: inline-block;
+  vertical-align: top;
+  height: 100%;
+}
+
+.numCounter > div > b {
+  display: inline-block;
+  width: 40px;
+  height: 100%;
+  margin: 0 0.1em;
+  border-radius: 8px;
+  text-align: center;
+  background: white;
+  overflow: hidden;
+}
+
+.numCounter > div > b::before {
+  content: ' 0 1 2 3 4 5 6 7 8 9 ';
+  display: block;
+  word-break: break-all;
+  -webkit-transition: 0.5s cubic-bezier(0.75, 0.15, 0.6, 1.15), text-shadow 150ms;
+  transition: 0.5s cubic-bezier(0.75, 0.15, 0.6, 1.15), text-shadow 150ms;
+}
+
+.numCounter > div > b.blur {
+  text-shadow: 2px 1px 3px rgba(0, 0, 0, 0.2), 
+               0 0.1em 2px rgba(255, 255, 255, 0.6), 
+               0 0.3em 3px rgba(255, 255, 255, 0.3), 
+               0 -0.1em 2px rgba(255, 255, 255, 0.6), 
+               0 -0.3em 3px rgba(255, 255, 255, 0.3);
+}
+
+.numCounter > div > b[data-value="1"]::before { margin-top: -90px; }
+.numCounter > div > b[data-value="2"]::before { margin-top: -180px;}
+.numCounter > div > b[data-value="3"]::before { margin-top: -270px;}
+.numCounter > div > b[data-value="4"]::before { margin-top: -360px;}
+.numCounter > div > b[data-value="5"]::before { margin-top: -450px;}
+.numCounter > div > b[data-value="6"]::before { margin-top: -540px;}
+.numCounter > div > b[data-value="7"]::before { margin-top: -630px;}
+.numCounter > div > b[data-value="8"]::before { margin-top: -720px;}
+.numCounter > div > b[data-value="9"]::before { margin-top: -810px;}
+
+.numCounter > div:nth-last-child(3n)::before {
+  content: ",";
+  display: inline;
+  font-size: 1.1em;
+  opacity: .6;
+  color: white;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial;
+}
+
+.numCounter {
+  overflow: hidden;
+  padding: .4em;
+  text-align: center;
+ 
+  border-radius: 16px;
+  background: black;
+}
+.numCounter b {
+  color: black;
+}
+    </style>
+  </body>
+</html>
