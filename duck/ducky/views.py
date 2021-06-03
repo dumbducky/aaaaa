@@ -10,8 +10,6 @@ import psycopg2
 from psycopg2 import sql
 import json
 from ducky.constants import db_name, db_password, db_user, db_host, ipc_password
-import nest_asyncio
-nest_asyncio.apply()
 
 try:
 	loopeydoopeywuackey = asyncio.get_event_loop()
@@ -160,17 +158,10 @@ def api_logging(request):
 def testing(req):
 	return render(req, f"ducky/testing.html", {})
 
-def live_stats_members(req):
-	return HttpResponse(loopeydoopeywuackey.run_until_complete(ipc_client.request("live_stats_members")))
-
-def live_stats_servers(req):
-	return HttpResponse(loopeydoopeywuackey.run_until_complete(ipc_client.request("live_stats_servers")))
-
-def live_stats_commands(req):
-	return HttpResponse(loopeydoopeywuackey.run_until_complete(ipc_client.request("live_stats_commands")))
-
-def live_stats_messages(req):
-	return HttpResponse(loopeydoopeywuackey.run_until_complete(ipc_client.request("live_stats_messages")))
+def live_stats(req):
+	stuff = loopeydoopeywuackey.run_until_complete(ipc_client.request("live_stats"))
+	print(stuff)
+	return HttpResponse(json.dumps(stuff))
 
 def log_out(req):
 	print("stuff")
