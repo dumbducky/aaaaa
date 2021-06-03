@@ -160,11 +160,9 @@ def testing(req):
 
 def live_stats(req):
 	stuff = loopeydoopeywuackey.run_until_complete(ipc_client.request("live_stats"))
-	print(stuff)
 	return HttpResponse(json.dumps(stuff))
 
 def log_out(req):
-	print("stuff")
 	response = HttpResponse("stuff")
 	try:
 		del req.session['guilds']

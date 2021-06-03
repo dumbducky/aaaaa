@@ -94,7 +94,6 @@ function update(){
 	var data = {'csrfmiddlewaretoken': '{{ csrf_token }}'};
   	$.post("/live_stats", data, function(recieved){
   		var json = $.parseJSON(recieved);
-  		console.log(json)
   		memberCounter.count(json.members);
   		serverCounter.count(json.servers);
   		commandCounter.count(json.commands);
